@@ -1,6 +1,5 @@
 import type { ResumeT } from "@/types/form";
-import { Document, Page, pdf, Text, View, Font } from "@react-pdf/renderer";
-import { createTw } from "react-pdf-tailwind";
+import { pdf, Font } from "@react-pdf/renderer";
 import { DefaultResumeTemplate } from "./resume-templates";
 
 Font.register({
