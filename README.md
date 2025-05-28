@@ -4,7 +4,10 @@
 Build your resume fast, free, and the right way.
 Clean, simple, and made to impress recruiters.
 
-> ⚠️ Work in progress
+## Preview
+
+![Resuma Preview](public/preview.png)
+_A clean and simple resume editor with PDF export._
 
 ---
 

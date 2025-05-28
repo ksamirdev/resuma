@@ -4,13 +4,19 @@ import { createResumePdfBlob } from "@/lib/pdf-blob";
 import { Button } from "../ui/button";
 import { useDebounce, useMeasure } from "@uidotdev/usehooks";
 import { useFormContext, useWatch } from "react-hook-form";
-import type { ResumeT } from "@/types/form";
+import type {
+  EducationEntry,
+  ExtraSection,
+  Resume,
+  ResumeLink,
+  WorkExperience,
+} from "@/types/form";
 import { LucideDownload, LucideEraser } from "lucide-react";
 
 const PDF_VIEWER_PADDING = 10;
 export const ResumePreview = () => {
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
-  const { control } = useFormContext<ResumeT>();
+  const { control } = useFormContext<Resume>();
   const [resizeRef, container] = useMeasure();
 
   // Watch all form fields
@@ -21,7 +27,19 @@ export const ResumePreview = () => {
 
   useEffect(() => {
     const generatePdf = async () => {
-      const blob = await createResumePdfBlob(debouncedFormValues);
+      const blob = await createResumePdfBlob({
+        ...debouncedFormValues,
+        links: debouncedFormValues.links as ResumeLink[] | undefined,
+        educationHistories: debouncedFormValues.educationHistories as
+          | EducationEntry[]
+          | undefined,
+        workHistories: debouncedFormValues.workHistories as
+          | WorkExperience[]
+          | undefined,
+        extraSections: debouncedFormValues.extraSections as
+          | ExtraSection[]
+          | undefined,
+      });
       const url = URL.createObjectURL(blob);
 
       if (pdfUrl) {
@@ -67,8 +85,10 @@ export const ResumePreview = () => {
           <LucideEraser />
           Reset
         </Button>
-        <Button className="self-end">
-          <LucideDownload /> Export as PDF
+        <Button className="self-end" asChild disabled={!pdfUrl}>
+          <a href={pdfUrl ?? "#"} download="resume.pdf">
+            <LucideDownload /> Export as PDF
+          </a>
         </Button>
       </div>
     </div>

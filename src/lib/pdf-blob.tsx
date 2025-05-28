@@ -1,6 +1,6 @@
-import type { ResumeT } from "@/types/form";
+import type { Resume } from "@/types/form";
 import { pdf, Font } from "@react-pdf/renderer";
-import { DefaultResumeTemplate } from "./resume-templates";
+import { getResumeTemplateComponent } from "./resume-templates";
 
 Font.register({
   family: "EBGaramond",
@@ -42,13 +42,8 @@ Font.register({
   ],
 });
 
-export const createResumePdfBlob = async (data: Partial<ResumeT>) => {
-  let pdfDocument;
-  switch (data.template) {
-    default:
-      pdfDocument = <DefaultResumeTemplate data={data} />;
-      break;
-  }
+export const createResumePdfBlob = async (data: Partial<Resume>) => {
+  const pdfDocument = getResumeTemplateComponent(data);
 
   const blob = await pdf(pdfDocument).toBlob();
   return blob;
