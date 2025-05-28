@@ -9,8 +9,7 @@ import { pdfjs } from "react-pdf";
 // Create a new router instance
 const router = createRouter({ routeTree, basepath: "/resuma/" });
 
-pdfjs.GlobalWorkerOptions.workerSrc =
-  "//cdnjs.cloudflare.com/ajax/libs/pdf.js/4.8.69/pdf.worker.mjs";
+pdfjs.GlobalWorkerOptions.workerSrc = "//pdf.worker.mjs";
 
 // Register the router instance for type safety
 declare module "@tanstack/react-router" {
