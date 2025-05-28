@@ -46,6 +46,6 @@ export type ExtraSectionItem = {
 };
 
 export type DateRange = {
-  from: Date;
-  to: Date;
+  from: Date | undefined;
+  to: Date | undefined;
 };

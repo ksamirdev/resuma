@@ -11,9 +11,10 @@ import type {
   ResumeLink,
   WorkExperience,
 } from "@/types/form";
-import { LucideDownload, LucideEraser } from "lucide-react";
+import { LucideDownload, LucideEraser, LucideLoader2 } from "lucide-react";
 
 const PDF_VIEWER_PADDING = 10;
+
 export const ResumePreview = () => {
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const { control, setValue } = useFormContext<Resume>();
@@ -61,9 +62,9 @@ export const ResumePreview = () => {
     <div className="space-y-5 flex flex-col h-full w-full" ref={resizeRef}>
       <Document
         file={pdfUrl}
-        loading={<div className="min-h-[707px] min-w-[500px] bg-white" />}
-        error={<div className="min-h-[707px] min-w-[500px] bg-white" />}
-        noData={<div className="min-h-[707px] min-w-[500px] bg-white" />}
+        loading={<PDFLoading />}
+        error={<div className="min-h-[792px] min-w-[500px] bg-white" />}
+        noData={<div className="min-h-[792px] min-w-[500px] bg-white" />}
         onLoadError={(error) => {
           console.error("[ERROR]: Error loading PDF:", error);
         }}
@@ -126,3 +127,18 @@ export const ResumePreview = () => {
     </div>
   );
 };
+
+const PDFLoading = () => (
+  <div className="min-h-[792px] min-w-[600] bg-white flex flex-col items-center justify-center h-full gap-4">
+    <div className="flex flex-row items-center gap-5">
+      <LucideLoader2 className="animate-spin h-8 w-8 stroke-primary" />
+
+      <div className="flex flex-col">
+        <p className="text-muted-foreground font-semibold">Generating PDF</p>
+        <p className="text-muted-foreground max-w-md text-xs">
+          Please wait while we generate the PDF
+        </p>
+      </div>
+    </div>
+  </div>
+);

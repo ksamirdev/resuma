@@ -8,7 +8,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { MonthRangePicker } from "../ui/monthrangepicker";
-import { format } from "date-fns";
+import { format, subMonths } from "date-fns";
 import {
   Accordion,
   AccordionContent,
@@ -47,22 +47,32 @@ function LinksFields() {
   const links = useFieldArray({ control, name: "links" });
   return (
     <div className="space-y-3 col-span-2">
-      <Label>Links</Label>
-      <div className="border bg-card p-5 rounded-lg space-y-5">
-        {links.fields.map((_, idx) => (
-          <div key={idx} className="grid w-full grid-cols-2 gap-5">
-            <div className="space-y-2">
-              <Label>Label</Label>
-              <Input {...register(`links.${idx}.label`)} />
+      {links.fields.length > 0 ? (
+        <div className="border bg-card p-5 rounded-lg space-y-5">
+          {links.fields.map((_, idx) => (
+            <div key={idx} className="grid w-full grid-cols-2 gap-5">
+              <div className="space-y-2">
+                <Label>Label</Label>
+                <Input {...register(`links.${idx}.label`)} />
+              </div>
+              <div className="space-y-2">
+                <Label>URL</Label>
+                <Input {...register(`links.${idx}.url`)} />
+              </div>
             </div>
-            <div className="space-y-2">
-              <Label>URL</Label>
-              <Input {...register(`links.${idx}.url`)} />
-            </div>
-          </div>
-        ))}
-      </div>
-      <Button className="w-full" type="button">
+          ))}
+        </div>
+      ) : null}
+      <Button
+        className="w-full"
+        type="button"
+        onClick={() =>
+          links.append({
+            label: "",
+            url: "",
+          })
+        }
+      >
         Add links
       </Button>
     </div>
@@ -116,8 +126,9 @@ function WorkHistoriesFields() {
                   <MonthRangePicker
                     maxDate={new Date()}
                     selectedMonthRange={{
-                      start: workHistory.period.from,
-                      end: workHistory.period.to,
+                      start:
+                        workHistory.period.from || subMonths(new Date(), 5),
+                      end: workHistory.period.to || new Date(),
                     }}
                     onMonthRangeSelect={({ start, end }) => {
                       workHistories.update(idx, {
@@ -140,7 +151,23 @@ function WorkHistoriesFields() {
           </div>
         </div>
       ))}
-      <Button className="w-full">Add work experience</Button>
+      <Button
+        className="w-full"
+        onClick={() =>
+          workHistories.append({
+            company: "",
+            location: "",
+            period: {
+              from: undefined,
+              to: undefined,
+            },
+            summary: "",
+            title: "",
+          })
+        }
+      >
+        Add work experience
+      </Button>
     </div>
   );
 }
@@ -154,7 +181,6 @@ function EducationFields() {
   });
   return (
     <div className="space-y-3 col-span-2">
-      <Label>Education</Label>
       {educationHistories.fields.map((educationHistory, idx) => (
         <div className="border bg-card p-5 rounded-lg space-y-5" key={idx}>
           <div className="grid w-full grid-cols-2 gap-5">
@@ -197,8 +223,10 @@ function EducationFields() {
                   <MonthRangePicker
                     maxDate={new Date()}
                     selectedMonthRange={{
-                      start: educationHistory.period.from,
-                      end: educationHistory.period.to,
+                      start:
+                        educationHistory.period.from ||
+                        subMonths(new Date(), 5),
+                      end: educationHistory.period.to || new Date(),
                     }}
                     onMonthRangeSelect={({ start, end }) => {
                       educationHistories.update(idx, {
@@ -221,7 +249,23 @@ function EducationFields() {
           </div>
         </div>
       ))}
-      <Button className="w-full">Add education</Button>
+      <Button
+        className="w-full"
+        onClick={() =>
+          educationHistories.append({
+            details: "",
+            institution: "",
+            qualification: "",
+            period: {
+              from: undefined,
+              to: undefined,
+            },
+            location: "",
+          })
+        }
+      >
+        Add education
+      </Button>
     </div>
   );
 }
@@ -232,7 +276,6 @@ function ExtraSectionsFields() {
   const extraSections = useFieldArray({ control, name: "extraSections" });
   return (
     <div className="space-y-3 col-span-2">
-      <Label>Addition Sections</Label>
       {extraSections.fields.map((_, idx) => (
         <div className="border p-5 rounded-lg space-y-5" key={idx}>
           <div className="grid w-full  grid-cols-2 gap-5">
@@ -313,7 +356,9 @@ export const ResumeForm = () => {
         </AccordionItem>
 
         <AccordionItem value="extra-section" className="col-span-2">
-          <AccordionTrigger className="w-full">Extra Section</AccordionTrigger>
+          <AccordionTrigger className="w-full">
+            Addition Sections
+          </AccordionTrigger>
           <AccordionContent>
             <ExtraSectionsFields />
           </AccordionContent>
