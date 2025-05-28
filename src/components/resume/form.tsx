@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import type { Resume } from "@/types/form";
+import type { Resume, ResumeTemplate } from "@/types/form";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
@@ -15,6 +15,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 // Normal fields
 function BasicDetailsFields() {
@@ -326,10 +333,66 @@ function ExtraSectionsFields() {
   );
 }
 
+const TemplateSelector = () => {
+  const { setValue, watch } = useFormContext<Resume>();
+  const template = watch("template");
+
+  return (
+    <div className="col-span-2 space-y-3">
+      <Label htmlFor="template-select">Template</Label>
+      <Select
+        onValueChange={(v) => setValue("template", v as ResumeTemplate)}
+        value={template}
+        name="template"
+      >
+        <SelectTrigger className="w-full">
+          <SelectValue placeholder="Select a resume template..." />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="default">Professional</SelectItem>
+          <SelectItem value="minimal">Minimal</SelectItem>
+          <SelectItem value="modern">Modern</SelectItem>
+        </SelectContent>
+      </Select>
+      {/* <div className="mb-6 grid grid-cols-3 gap-5">
+        {[
+          {
+            label: "Professional",
+            url: "resume-default.pdf",
+            template: "default",
+          },
+          {
+            label: "Minimal",
+            url: "resume-minimal.pdf",
+            template: "minimal",
+          },
+          {
+            label: "Modern",
+            url: "resume-modern.pdf",
+            template: "modern",
+          },
+        ].map((template, idx) => (
+          <RenderSampleTemplate
+            label={template.label}
+            template={template.template as ResumeTemplate}
+            file={`${import.meta.env.BASE_URL}/samplepdfs/${template.url}`}
+            key={idx}
+          />
+        ))}
+      </div> */}
+    </div>
+  );
+};
+
 export const ResumeForm = () => {
   return (
     <div className="grid grid-cols-2 gap-5 pr-5">
+      <TemplateSelector />
+
+      <hr className="col-span-2" />
+
       <BasicDetailsFields />
+      <hr className="col-span-2" />
 
       <Accordion type="single" collapsible className="col-span-2">
         <AccordionItem value="links">
@@ -367,3 +430,61 @@ export const ResumeForm = () => {
     </div>
   );
 };
+
+// const RenderSampleTemplate = ({
+//   file,
+//   label,
+//   template,
+// }: {
+//   file: string;
+//   label: string;
+//   template: ResumeTemplate;
+// }) => {
+//   const [numPages, setNumPages] = useState<number>(1);
+//   const form = useFormContext<Resume>();
+
+//   return (
+//     <div
+//       className={cn(
+//         "rounded border shadow overflow-y-auto p-3 pt-0 relative flex flex-col hover:bg-card group",
+//         template === form.getValues().template && "bg-card"
+//       )}
+//       style={{ height: 380 }}
+//     >
+//       <div
+//         className="absolute inset-0 z-[100] cursor-pointer"
+//         onClick={() => form.setValue("template", template)}
+//       ></div>
+
+//       <span
+//         className={cn(
+//           "text-lg font-bold sticky top-0 z-50  w-full group-hover:bg-card py-3",
+//           template === form.getValues().template && "bg-card"
+//         )}
+//       >
+//         {label}
+//       </span>
+
+//       <Document
+//         file={file}
+//         loading={
+//           <div className="text-center text-muted-foreground">Loading...</div>
+//         }
+//         error={
+//           <div className="text-center text-red-500">Failed to load PDF</div>
+//         }
+//         onLoadSuccess={({ numPages }) => setNumPages(numPages)}
+//         className="w-min"
+//       >
+//         {Array.from({ length: numPages }, (_, i) => (
+//           <Page
+//             key={i}
+//             pageNumber={i + 1}
+//             height={350}
+//             className="overflow-hidden h-[350px] "
+//           />
+//         ))}
+//       </Document>
+//     </div>
+//   );
+// };

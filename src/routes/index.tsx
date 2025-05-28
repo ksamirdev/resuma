@@ -1,11 +1,6 @@
 import { ResumeForm, ResumePreview } from "@/components/resume";
-import { cn } from "@/lib/utils";
-import type { Resume, ResumeTemplate } from "@/types/form";
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-
-import { FormProvider, useForm, useFormContext } from "react-hook-form";
-import { Document, Page } from "react-pdf";
+import { FormProvider, useForm } from "react-hook-form";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -152,37 +147,7 @@ function Index() {
             </p>
           </div>
 
-          <div className="overflow-y-auto max-h-[85vh] pb-32">
-            <div className="mb-6 grid grid-cols-3 gap-5">
-              {[
-                {
-                  label: "Professional",
-                  url: "resume-default.pdf",
-                  template: "default",
-                },
-                {
-                  label: "Minimal",
-                  url: "resume-minimal.pdf",
-                  template: "minimal",
-                },
-                {
-                  label: "Modern",
-                  url: "resume-modern.pdf",
-                  template: "modern",
-                },
-              ].map((template, idx) => (
-                <RenderSampleTemplate
-                  label={template.label}
-                  template={template.template as ResumeTemplate}
-                  file={`${import.meta.env.BASE_URL}/samplepdfs/${
-                    template.url
-                  }`}
-                  key={idx}
-                />
-              ))}
-            </div>
-
-            {/* resume selector */}
+          <div className="overflow-y-auto max-h-[80vh] pb-32">
             <ResumeForm />
           </div>
         </div>
@@ -194,61 +159,3 @@ function Index() {
     </FormProvider>
   );
 }
-
-const RenderSampleTemplate = ({
-  file,
-  label,
-  template,
-}: {
-  file: string;
-  label: string;
-  template: ResumeTemplate;
-}) => {
-  const [numPages, setNumPages] = useState<number>(1);
-  const form = useFormContext<Resume>();
-
-  return (
-    <div
-      className={cn(
-        "rounded border shadow overflow-y-auto p-3 pt-0 relative flex flex-col hover:bg-card group",
-        template === form.getValues().template && "bg-card"
-      )}
-      style={{ height: 380 }}
-    >
-      <div
-        className="absolute inset-0 z-[100] cursor-pointer"
-        onClick={() => form.setValue("template", template)}
-      ></div>
-
-      <span
-        className={cn(
-          "text-lg font-bold sticky top-0 z-50  w-full group-hover:bg-card py-3",
-          template === form.getValues().template && "bg-card"
-        )}
-      >
-        {label}
-      </span>
-
-      <Document
-        file={file}
-        loading={
-          <div className="text-center text-muted-foreground">Loading...</div>
-        }
-        error={
-          <div className="text-center text-red-500">Failed to load PDF</div>
-        }
-        onLoadSuccess={({ numPages }) => setNumPages(numPages)}
-        className="w-min"
-      >
-        {Array.from({ length: numPages }, (_, i) => (
-          <Page
-            key={i}
-            pageNumber={i + 1}
-            height={350}
-            className="overflow-hidden h-[350px] "
-          />
-        ))}
-      </Document>
-    </div>
-  );
-};
