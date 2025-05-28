@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -157,5 +158,16 @@
 
   .container {
     @apply px-4 xl:px-6 mx-auto max-w-screen-2xl;
+  }
+}
+
+.react-pdf__viewer {
+  /* Hide the default toolbar */
+  .rpv-core__toolbar {
+    display: none !important;
+  }
+  /* Hide the sidebar or other UI elements */
+  .rpv-core__sidebar {
+    display: none !important;
   }
 }
