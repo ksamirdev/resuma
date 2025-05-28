@@ -223,7 +223,7 @@ const RenderSampleTemplate = ({
 
       <span
         className={cn(
-          "text-lg font-bold sticky top-0 z-50 bg-black w-full group-hover:bg-card py-3",
+          "text-lg font-bold sticky top-0 z-50  w-full group-hover:bg-card py-3",
           template === form.getValues().template && "bg-card"
         )}
       >

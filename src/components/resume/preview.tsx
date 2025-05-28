@@ -66,7 +66,7 @@ export const ResumePreview = () => {
         onLoadError={(error) => {
           console.error("[ERROR]: Error loading PDF:", error);
         }}
-        className="shadow-lg "
+        className="shadow-xl"
       >
         <Page
           pageNumber={1}
@@ -85,10 +85,28 @@ export const ResumePreview = () => {
           <LucideEraser />
           Reset
         </Button>
-        <Button className="self-end" asChild disabled={!pdfUrl}>
-          <a href={pdfUrl ?? "#"} download="resume.pdf">
-            <LucideDownload /> Export as PDF
-          </a>
+        <Button
+          disabled={!pdfUrl}
+          onClick={async (e) => {
+            if (!pdfUrl) return;
+            e.preventDefault();
+            const shouldContinue = window.confirm(
+              "If you like this project, please consider starring it on GitHub!\n\nWould you like to continue downloading your resume?"
+            );
+            if (shouldContinue) {
+              // Trigger download
+              const link = document.createElement("a");
+              link.href = pdfUrl;
+              link.download = "resume.pdf";
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+
+              window.open("https://github.com/ksamirdev/resuma", "_blank");
+            }
+          }}
+        >
+          <LucideDownload /> Export as PDF
         </Button>
       </div>
     </div>
