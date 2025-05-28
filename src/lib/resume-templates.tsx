@@ -181,7 +181,9 @@ export const ModernResumeTemplate: FC<{ data: Partial<Resume> }> = ({
           </View>
 
           {/* Contact */}
-          {data?.phoneNumber || data?.email || data?.links?.length > 0 ? (
+          {data?.phoneNumber ||
+          data?.email ||
+          (data?.links?.length ?? 0) > 0 ? (
             <View style={pdfTw("mb-6")}>
               <Text style={pdfTw("text-sm font-bold mb-2 text-primary")}>
                 CONTACT
