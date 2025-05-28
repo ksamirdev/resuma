@@ -49,7 +49,7 @@ function LinksFields() {
     <div className="space-y-3 col-span-2">
       <Label>Links</Label>
       <div className="border bg-card p-5 rounded-lg space-y-5">
-        {links.fields.map((link, idx) => (
+        {links.fields.map((_, idx) => (
           <div key={idx} className="grid w-full grid-cols-2 gap-5">
             <div className="space-y-2">
               <Label>Label</Label>
