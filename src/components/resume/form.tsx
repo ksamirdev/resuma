@@ -279,56 +279,167 @@ function EducationFields() {
 
 // Extra Sections
 function ExtraSectionsFields() {
-  const { control } = useFormContext<Resume>();
+  const { control, register } = useFormContext<Resume>();
   const extraSections = useFieldArray({ control, name: "extraSections" });
   return (
     <div className="space-y-3 col-span-2">
-      {extraSections.fields.map((_, idx) => (
-        <div className="border p-5 rounded-lg space-y-5" key={idx}>
-          <div className="grid w-full  grid-cols-2 gap-5">
+      {extraSections.fields.map((section, idx) => (
+        <div className="border p-5 rounded-lg space-y-5 bg-card" key={idx}>
+          <div className="grid w-full grid-cols-2 gap-5">
             <div className="space-y-2 col-span-2">
               <Label>Section Title</Label>
-              <Input />
+              <Input {...register(`extraSections.${idx}.sectionName`)} />
             </div>
-            <div className="space-y-2">
-              <Label>Title</Label>
-              <Input />
-            </div>
-            <div className="space-y-2">
-              <Label>Organization</Label>
-              <Input />
-            </div>
-          </div>
-          <div className="grid w-full grid-cols-2 gap-5">
-            <div className="space-y-2">
-              <Label>Period</Label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant={"outline"}
-                    className={cn("w-full pl-3 text-left font-normal")}
+
+            {section.items.length > 0 ? (
+              <div className="pl-5 col-span-2 space-y-5 border-l">
+                {section.items.map((item, itemIdx) => (
+                  <div
+                    key={itemIdx}
+                    className="p-5 bg-card col-span-2 grid w-full relative grid-cols-2 gap-5 rounded-lg border"
                   >
-                    <span>Pick a month</span>
-                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <MonthRangePicker maxDate={new Date()} />
-                </PopoverContent>
-              </Popover>
-            </div>
-            <div className="space-y-2 ">
-              <Label>Location</Label>
-              <Input />
-            </div>
+                    <div className="bg-primary absolute left-[-33px] grid size-[24px] text-background rounded-full">
+                      <div className="m-auto font-semibold">{itemIdx + 1}</div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label>Title</Label>
+                      <Input
+                        {...register(
+                          `extraSections.${idx}.items.${itemIdx}.title`
+                        )}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Organization</Label>
+                      <Input
+                        {...register(
+                          `extraSections.${idx}.items.${itemIdx}.organization`
+                        )}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Period</Label>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-full pl-3 text-left font-normal",
+                              !item.period.from &&
+                                !item.period.to &&
+                                "text-muted-foreground"
+                            )}
+                          >
+                            {item.period.from && item.period.to ? (
+                              <span>
+                                {format(item.period.from, "MMM yyyy")} -{" "}
+                                {format(item.period.to, "MMM yyyy")}
+                              </span>
+                            ) : (
+                              <span>Pick a month</span>
+                            )}
+
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <MonthRangePicker
+                            maxDate={new Date()}
+                            selectedMonthRange={{
+                              start:
+                                item.period.from || subMonths(new Date(), 5),
+                              end: item.period.to || new Date(),
+                            }}
+                            onMonthRangeSelect={({ start, end }) => {
+                              const updatedSection = {
+                                ...section,
+                                items: section.items.map((it, i) =>
+                                  i === itemIdx
+                                    ? {
+                                        ...it,
+                                        period: { from: start, to: end },
+                                      }
+                                    : it
+                                ),
+                              };
+                              extraSections.update(idx, updatedSection);
+                            }}
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+                    <div className="space-y-2 ">
+                      <Label>Location</Label>
+                      <Input
+                        {...register(
+                          `extraSections.${idx}.items.${itemIdx}.location`
+                        )}
+                      />
+                    </div>
+
+                    <div className="space-y-2 col-span-2">
+                      <Label>Description</Label>
+                      <Textarea
+                        {...register(
+                          `extraSections.${idx}.items.${itemIdx}.details`
+                        )}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : null}
           </div>
-          <div className="space-y-2">
-            <Label>Description</Label>
-            <Textarea />
-          </div>
-          <Button className="w-full">Add more</Button>
+
+          <Button
+            className="w-full"
+            onClick={() =>
+              extraSections.update(idx, {
+                ...section,
+                items: [
+                  ...section.items,
+                  {
+                    details: "",
+                    location: "",
+                    organization: "",
+                    period: {
+                      from: undefined,
+                      to: undefined,
+                    },
+                    title: "",
+                  },
+                ],
+              })
+            }
+          >
+            Add items
+          </Button>
         </div>
       ))}
+
+      <Button
+        className="w-full"
+        onClick={() =>
+          extraSections.append({
+            sectionName: "",
+            items: [
+              {
+                details: "",
+                location: "",
+                organization: "",
+                period: {
+                  from: undefined,
+                  to: undefined,
+                },
+                title: "",
+              },
+            ],
+          })
+        }
+      >
+        Add more sections
+      </Button>
     </div>
   );
 }
