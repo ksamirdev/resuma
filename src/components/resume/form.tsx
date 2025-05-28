@@ -5,7 +5,15 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { CalendarIcon } from "lucide-react";
+import {
+  CalendarIcon,
+  LinkIcon,
+  MailIcon,
+  MapPinIcon,
+  PhoneIcon,
+  TagIcon,
+  UserIcon,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { MonthRangePicker } from "../ui/monthrangepicker";
 import { format, subMonths } from "date-fns";
@@ -29,19 +37,39 @@ function BasicDetailsFields() {
   return (
     <>
       <div className="space-y-2">
-        <Label>Name</Label>
+        <Label>
+          <span className="inline-flex items-center gap-2">
+            <UserIcon className="w-4 h-4" />
+            Name
+          </span>
+        </Label>
         <Input {...register("fullName")} />
       </div>
       <div className="space-y-2">
-        <Label>Address</Label>
+        <Label>
+          <span className="inline-flex items-center gap-2">
+            <MapPinIcon className="w-4 h-4" />
+            Address
+          </span>
+        </Label>
         <Input {...register("address")} />
       </div>
       <div className="space-y-2">
-        <Label>Email</Label>
+        <Label>
+          <span className="inline-flex items-center gap-2">
+            <MailIcon className="w-4 h-4" />
+            Email
+          </span>
+        </Label>
         <Input {...register("email")} />
       </div>
       <div className="space-y-2">
-        <Label>Phone Number</Label>
+        <Label>
+          <span className="inline-flex items-center gap-2">
+            <PhoneIcon className="w-4 h-4" />
+            Phone Number
+          </span>
+        </Label>
         <Input {...register("phoneNumber")} />
       </div>
     </>
@@ -59,11 +87,21 @@ function LinksFields() {
           {links.fields.map((_, idx) => (
             <div key={idx} className="grid w-full grid-cols-2 gap-5">
               <div className="space-y-2">
-                <Label>Label</Label>
+                <Label>
+                  <span className="inline-flex items-center gap-2">
+                    <TagIcon className="w-4 h-4" />
+                    Label
+                  </span>
+                </Label>
                 <Input {...register(`links.${idx}.label`)} />
               </div>
               <div className="space-y-2">
-                <Label>URL</Label>
+                <Label>
+                  <span className="inline-flex items-center gap-2">
+                    <LinkIcon className="w-4 h-4" />
+                    URL
+                  </span>
+                </Label>
                 <Input {...register(`links.${idx}.url`)} />
               </div>
             </div>
