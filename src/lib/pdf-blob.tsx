@@ -6,32 +6,36 @@ Font.register({
   family: "EBGaramond",
   fonts: [
     {
-      src: "/fonts/garamond/EBGaramond-Regular.ttf",
+      src: `${import.meta.env.BASE_URL}/fonts/garamond/EBGaramond-Regular.ttf`,
       fontStyle: "normal",
       fontWeight: "normal",
     },
     {
-      src: "/fonts/garamond/EBGaramond-Italic.ttf",
+      src: `${import.meta.env.BASE_URL}/fonts/garamond/EBGaramond-Italic.ttf`,
       fontStyle: "italic",
       fontWeight: "normal",
     },
     {
-      src: "/fonts/garamond/EBGaramond-Bold.ttf",
+      src: `${import.meta.env.BASE_URL}/fonts/garamond/EBGaramond-Bold.ttf`,
       fontStyle: "normal",
       fontWeight: "bold",
     },
     {
-      src: "/fonts/garamond/EBGaramond-BoldItalic.ttf",
+      src: `${
+        import.meta.env.BASE_URL
+      }/fonts/garamond/EBGaramond-BoldItalic.ttf`,
       fontStyle: "italic",
       fontWeight: "bold",
     },
     {
-      src: "/fonts/garamond/EBGaramond-SemiBold.ttf",
+      src: `${import.meta.env.BASE_URL}/fonts/garamond/EBGaramond-SemiBold.ttf`,
       fontStyle: "normal",
       fontWeight: "semibold",
     },
     {
-      src: "/fonts/garamond/EBGaramond-SemiBoldItalic.ttf",
+      src: `${
+        import.meta.env.BASE_URL
+      }/fonts/garamond/EBGaramond-SemiBoldItalic.ttf`,
       fontStyle: "italic",
       fontWeight: "semibold",
     },

@@ -1,12 +1,7 @@
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import { pdfjs } from "react-pdf";
-import MainHeader from "../components/main-header";
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  "pdfjs-dist/build/pdf.worker.min.mjs",
-  import.meta.url
-).toString();
+import MainHeader from "../components/main-header";
 
 export const Route = createRootRoute({
   component: () => (

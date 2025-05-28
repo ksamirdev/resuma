@@ -2,14 +2,16 @@ import { Document, Page } from "react-pdf";
 import { useEffect, useState } from "react";
 import { createResumePdfBlob } from "@/lib/pdf-blob";
 import { Button } from "../ui/button";
-import { useDebounce } from "@uidotdev/usehooks";
+import { useDebounce, useMeasure } from "@uidotdev/usehooks";
 import { useFormContext, useWatch } from "react-hook-form";
 import type { ResumeT } from "@/types/form";
 import { LucideDownload, LucideEraser } from "lucide-react";
 
+const PDF_VIEWER_PADDING = 10;
 export const ResumePreview = () => {
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const { control } = useFormContext<ResumeT>();
+  const [resizeRef, container] = useMeasure();
 
   // Watch all form fields
   const watchedFormValues = useWatch({ control });
@@ -37,7 +39,7 @@ export const ResumePreview = () => {
   }, [debouncedFormValues]);
 
   return (
-    <div className="space-y-5 flex flex-col h-full w-full">
+    <div className="space-y-5 flex flex-col h-full w-full" ref={resizeRef}>
       <Document
         file={pdfUrl}
         loading={<div className="min-h-[707px] min-w-[500px] bg-white" />}
@@ -46,11 +48,15 @@ export const ResumePreview = () => {
         onLoadError={(error) => {
           console.error("[ERROR]: Error loading PDF:", error);
         }}
-        className="shadow-lg z-50"
+        className="shadow-lg "
       >
         <Page
           pageNumber={1}
-          width={500}
+          width={
+            (container.width || 0) > 600
+              ? 600 - PDF_VIEWER_PADDING
+              : (container.width || 0) - PDF_VIEWER_PADDING
+          }
           renderTextLayer={false}
           renderAnnotationLayer={false}
         />
