@@ -53,17 +53,11 @@ function LinksFields() {
           <div key={idx} className="grid w-full grid-cols-2 gap-5">
             <div className="space-y-2">
               <Label>Label</Label>
-              <Input
-                {...register(`links.${idx}.label`)}
-                defaultValue={link.label}
-              />
+              <Input {...register(`links.${idx}.label`)} />
             </div>
             <div className="space-y-2">
               <Label>URL</Label>
-              <Input
-                {...register(`links.${idx}.url`)}
-                defaultValue={link.url}
-              />
+              <Input {...register(`links.${idx}.url`)} />
             </div>
           </div>
         ))}
@@ -86,17 +80,11 @@ function WorkHistoriesFields() {
           <div className="grid w-full grid-cols-2 gap-5">
             <div className="space-y-2">
               <Label>Job Title</Label>
-              <Input
-                {...register(`workHistories.${idx}.title`)}
-                defaultValue={workHistory.title}
-              />
+              <Input {...register(`workHistories.${idx}.title`)} />
             </div>
             <div className="space-y-2">
               <Label>Employer</Label>
-              <Input
-                {...register(`workHistories.${idx}.company`)}
-                defaultValue={workHistory.company}
-              />
+              <Input {...register(`workHistories.${idx}.company`)} />
             </div>
           </div>
           <div className="grid w-full grid-cols-2 gap-5">
@@ -143,18 +131,12 @@ function WorkHistoriesFields() {
             </div>
             <div className="space-y-2 ">
               <Label>Location</Label>
-              <Input
-                {...register(`workHistories.${idx}.location`)}
-                defaultValue={workHistory.location}
-              />
+              <Input {...register(`workHistories.${idx}.location`)} />
             </div>
           </div>
           <div className="space-y-2">
             <Label>Description</Label>
-            <Textarea
-              {...register(`workHistories.${idx}.summary`)}
-              defaultValue={workHistory.summary}
-            />
+            <Textarea {...register(`workHistories.${idx}.summary`)} />
           </div>
         </div>
       ))}
@@ -178,17 +160,11 @@ function EducationFields() {
           <div className="grid w-full grid-cols-2 gap-5">
             <div className="space-y-2">
               <Label>School</Label>
-              <Input
-                {...register(`educationHistories.${idx}.institution`)}
-                defaultValue={educationHistory.institution}
-              />
+              <Input {...register(`educationHistories.${idx}.institution`)} />
             </div>
             <div className="space-y-2">
               <Label>Degree</Label>
-              <Input
-                {...register(`educationHistories.${idx}.qualification`)}
-                defaultValue={educationHistory.qualification}
-              />
+              <Input {...register(`educationHistories.${idx}.qualification`)} />
             </div>
           </div>
           <div className="grid w-full grid-cols-2 gap-5">
@@ -236,17 +212,11 @@ function EducationFields() {
             </div>
             <div className="space-y-2 ">
               <Label>Location</Label>
-              <Input
-                {...register(`educationHistories.${idx}.location`)}
-                defaultValue={educationHistory.location}
-              />
+              <Input {...register(`educationHistories.${idx}.location`)} />
             </div>
             <div className="space-y-2 col-span-2">
               <Label>Description</Label>
-              <Textarea
-                {...register(`educationHistories.${idx}.details`)}
-                defaultValue={educationHistory.details}
-              />
+              <Textarea {...register(`educationHistories.${idx}.details`)} />
             </div>
           </div>
         </div>

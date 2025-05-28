@@ -16,11 +16,12 @@ import { LucideDownload, LucideEraser } from "lucide-react";
 const PDF_VIEWER_PADDING = 10;
 export const ResumePreview = () => {
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
-  const { control } = useFormContext<Resume>();
+  const { control, setValue } = useFormContext<Resume>();
   const [resizeRef, container] = useMeasure();
 
   // Watch all form fields
   const watchedFormValues = useWatch({ control });
+  console.log(watchedFormValues);
 
   // Debounce form changes to prevent spamming PDF generation
   const debouncedFormValues = useDebounce(watchedFormValues, 1000);
@@ -81,7 +82,20 @@ export const ResumePreview = () => {
       </Document>
 
       <div className="flex flex-row justify-around">
-        <Button className="self-end" variant={"destructive"}>
+        <Button
+          className="self-end"
+          variant={"destructive"}
+          onClick={() => {
+            setValue("address", "");
+            setValue("educationHistories", []);
+            setValue("fullName", "");
+            setValue("email", "");
+            setValue("workHistories", []);
+            setValue("links", []);
+            setValue("phoneNumber", "");
+            setValue("extraSections", []);
+          }}
+        >
           <LucideEraser />
           Reset
         </Button>

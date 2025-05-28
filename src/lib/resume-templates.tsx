@@ -181,31 +181,33 @@ export const ModernResumeTemplate: FC<{ data: Partial<Resume> }> = ({
           </View>
 
           {/* Contact */}
-          <View style={pdfTw("mb-6")}>
-            <Text style={pdfTw("text-sm font-bold mb-2 text-primary")}>
-              CONTACT
-            </Text>
-            {data?.phoneNumber && (
-              <Text style={pdfTw("text-xs mb-1")}>{data.phoneNumber}</Text>
-            )}
-            {data?.email && (
-              <Link
-                src={`mailto:${data.email}`}
-                style={pdfTw("text-xs text-blue-600 mb-1")}
-              >
-                {data.email}
-              </Link>
-            )}
-            {data?.links?.map((link, idx) => (
-              <Link
-                key={idx}
-                src={link.url}
-                style={pdfTw("text-xs text-blue-600 block mb-1")}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </View>
+          {data?.phoneNumber || data?.email || data?.links?.length > 0 ? (
+            <View style={pdfTw("mb-6")}>
+              <Text style={pdfTw("text-sm font-bold mb-2 text-primary")}>
+                CONTACT
+              </Text>
+              {data?.phoneNumber && (
+                <Text style={pdfTw("text-xs mb-1")}>{data.phoneNumber}</Text>
+              )}
+              {data?.email && (
+                <Link
+                  src={`mailto:${data.email}`}
+                  style={pdfTw("text-xs text-blue-600 mb-1")}
+                >
+                  {data.email}
+                </Link>
+              )}
+              {data?.links?.map((link, idx) => (
+                <Link
+                  key={idx}
+                  src={link.url}
+                  style={pdfTw("text-xs text-blue-600 block mb-1")}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </View>
+          ) : null}
         </View>
 
         {/* Right content */}
