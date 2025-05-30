@@ -280,7 +280,7 @@ export const MinimalResumeTemplate: FC<{ data: Partial<Resume> }> = ({
     >
       {/* Header */}
       <View style={pdfTw("text-center mb-10")}>
-        <Text style={pdfTw("text-3xl font-light tracking-wider")}>
+        <Text style={pdfTw("text-3xl  font-bold tracking-wider leading-[1.5]")}>
           {data?.fullName || ""}
         </Text>
         <View style={pdfTw("h-px w-20 bg-gray-300 mx-auto my-2")} />
