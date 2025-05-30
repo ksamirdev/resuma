@@ -25,11 +25,14 @@ const Section: FC<{ title: string; children: React.ReactNode }> = ({
   title,
   children,
 }) => (
-  <View style={pdfTw("mb-4")}>
-    <View style={pdfTw("flex flex-row items-center mb-2")}>
-      <Text style={pdfTw("text-lg font-bold text-primary mr-2")}>{title}</Text>
-      <View style={pdfTw("flex-1 h-px bg-gray-300")} />
-    </View>
+  <View style={pdfTw("mb-3")}>
+    <Text
+      style={pdfTw(
+        "text-xs font-bold tracking-wider text-gray-500 mb-2 uppercase border-b border-gray-200 pb-1",
+      )}
+    >
+      {title}
+    </Text>
     {children}
   </View>
 );
@@ -72,7 +75,7 @@ export const ProfessionalResumeTemplate: FC<{ data: Partial<Resume> }> = ({
   <Document>
     <Page
       size="A4"
-      style={pdfTw("p-10 font-sans text-sm text-gray-800 bg-white")}
+      style={pdfTw("p-10 font-default text-sm text-gray-800 bg-white")}
     >
       {/* Header */}
       <View style={pdfTw("mb-6")}>
@@ -164,7 +167,7 @@ export const ModernResumeTemplate: FC<{ data: Partial<Resume> }> = ({
   <Document>
     <Page
       size="A4"
-      style={pdfTw("p-8 font-sans text-sm text-gray-800 bg-gray-50")}
+      style={pdfTw("p-8 font-default text-sm text-gray-800 bg-gray-50")}
     >
       {/* Two-column layout */}
       <View style={pdfTw("flex flex-row")}>
@@ -267,32 +270,37 @@ export const ModernResumeTemplate: FC<{ data: Partial<Resume> }> = ({
   </Document>
 );
 
-// --- Minimal Template ---
 export const MinimalResumeTemplate: FC<{ data: Partial<Resume> }> = ({
   data,
 }) => (
   <Document>
     <Page
       size="A4"
-      style={pdfTw("p-12 font-sans text-sm text-gray-800 bg-white")}
+      style={pdfTw("p-12 font-default text-sm text-gray-800 bg-white")}
     >
       {/* Header */}
-      <View style={pdfTw("text-center mb-8")}>
-        <Text style={pdfTw("text-3xl font-light tracking-wider mb-1")}>
+      <View style={pdfTw("text-center mb-10")}>
+        <Text style={pdfTw("text-3xl font-light tracking-wider")}>
           {data?.fullName || ""}
         </Text>
-        <View style={pdfTw("h-px w-16 bg-gray-400 mx-auto my-2")} />
-        <Text style={pdfTw("text-xs text-gray-600 mb-2")}>
+        <View style={pdfTw("h-px w-20 bg-gray-300 mx-auto my-2")} />
+        <Text style={pdfTw("text-xs text-gray-600 mb-3 tracking-wide")}>
           {data?.address || ""}
         </Text>
-        <View style={pdfTw("flex flex-row justify-center flex-wrap gap-x-4")}>
+        <View
+          style={pdfTw(
+            "flex flex-row justify-center flex-wrap gap-x-4 gap-y-1",
+          )}
+        >
           {data?.phoneNumber && (
-            <Text style={pdfTw("text-xs")}>{data.phoneNumber}</Text>
+            <Text style={pdfTw("text-xs tracking-wide")}>
+              {data.phoneNumber}
+            </Text>
           )}
           {data?.email && (
             <Link
               src={`mailto:${data.email}`}
-              style={pdfTw("text-xs text-gray-600")}
+              style={pdfTw("text-xs text-gray-600 tracking-wide")}
             >
               {data.email}
             </Link>
@@ -301,7 +309,7 @@ export const MinimalResumeTemplate: FC<{ data: Partial<Resume> }> = ({
             <Link
               key={idx}
               src={link.url}
-              style={pdfTw("text-xs text-gray-600")}
+              style={pdfTw("text-xs text-gray-600 tracking-wide")}
             >
               {link.label}
             </Link>
@@ -313,12 +321,27 @@ export const MinimalResumeTemplate: FC<{ data: Partial<Resume> }> = ({
       {data?.workHistories && data?.workHistories?.length > 0 && (
         <Section title="EXPERIENCE">
           {data.workHistories.map((job, idx) => (
-            <View key={idx} style={pdfTw("mb-4 text-center")}>
-              <Text style={pdfTw("text-sm font-bold")}>{job.title}</Text>
-              <Text style={pdfTw("text-xs text-gray-600 mb-1")}>
-                {job.company} • {formatDateRange(job.period)} • {job.location}
-              </Text>
-              <Text style={pdfTw("text-xs text-gray-800")}>{job.summary}</Text>
+            <View key={idx} style={pdfTw("mb-3")}>
+              <View
+                style={pdfTw("flex flex-row justify-between items-baseline")}
+              >
+                <Text style={pdfTw("text-sm font-semibold")}>{job.title}</Text>
+                <Text style={pdfTw("text-xs text-gray-500")}>
+                  {formatDateRange(job.period)}
+                </Text>
+              </View>
+              <View
+                style={pdfTw("flex flex-row justify-between items-baseline")}
+              >
+                <Text style={pdfTw("text-xs font-medium text-gray-600")}>
+                  {job.company} • {job.location}
+                </Text>
+              </View>
+              {job.summary && (
+                <Text style={pdfTw("text-xs text-gray-800 mt-2 leading-5")}>
+                  {job.summary}
+                </Text>
+              )}
             </View>
           ))}
         </Section>
@@ -328,15 +351,29 @@ export const MinimalResumeTemplate: FC<{ data: Partial<Resume> }> = ({
       {data?.educationHistories && data?.educationHistories?.length > 0 && (
         <Section title="EDUCATION">
           {data.educationHistories.map((edu, idx) => (
-            <View key={idx} style={pdfTw("mb-4 text-center")}>
-              <Text style={pdfTw("text-sm font-bold")}>
-                {edu.qualification}
-              </Text>
-              <Text style={pdfTw("text-xs text-gray-600 mb-1")}>
-                {edu.institution} • {formatDateRange(edu.period)} •{" "}
-                {edu.location}
-              </Text>
-              <Text style={pdfTw("text-xs text-gray-800")}>{edu.details}</Text>
+            <View key={idx} style={pdfTw("mb-3")}>
+              <View
+                style={pdfTw("flex flex-row justify-between items-baseline")}
+              >
+                <Text style={pdfTw("text-sm font-semibold")}>
+                  {edu.qualification}
+                </Text>
+                <Text style={pdfTw("text-xs text-gray-500")}>
+                  {formatDateRange(edu.period)}
+                </Text>
+              </View>
+              <View
+                style={pdfTw("flex flex-row justify-between items-baseline")}
+              >
+                <Text style={pdfTw("text-xs font-medium text-gray-600")}>
+                  {edu.institution} • {edu.location}
+                </Text>
+              </View>
+              {edu.details && (
+                <Text style={pdfTw("text-xs text-gray-800 mt-2 leading-5")}>
+                  {edu.details}
+                </Text>
+              )}
             </View>
           ))}
         </Section>
@@ -346,13 +383,27 @@ export const MinimalResumeTemplate: FC<{ data: Partial<Resume> }> = ({
       {data?.extraSections?.map((section, idx) => (
         <Section key={idx} title={section.sectionName.toUpperCase()}>
           {section.items.map((item, jdx) => (
-            <View key={jdx} style={pdfTw("mb-4 text-center")}>
-              <Text style={pdfTw("text-sm font-bold")}>{item.title}</Text>
-              <Text style={pdfTw("text-xs text-gray-600 mb-1")}>
-                {item.organization} • {formatDateRange(item.period)} •{" "}
-                {item.location}
-              </Text>
-              <Text style={pdfTw("text-xs text-gray-800")}>{item.details}</Text>
+            <View key={jdx} style={pdfTw("mb-3")}>
+              <View
+                style={pdfTw("flex flex-row justify-between items-baseline")}
+              >
+                <Text style={pdfTw("text-sm font-semibold")}>{item.title}</Text>
+                <Text style={pdfTw("text-xs text-gray-500")}>
+                  {formatDateRange(item.period)}
+                </Text>
+              </View>
+              <View
+                style={pdfTw("flex flex-row justify-between items-baseline")}
+              >
+                <Text style={pdfTw("text-xs font-medium text-gray-600")}>
+                  {item.organization} • {item.location}
+                </Text>
+              </View>
+              {item.details && (
+                <Text style={pdfTw("text-xs text-gray-800 mt-2 leading-5")}>
+                  {item.details}
+                </Text>
+              )}
             </View>
           ))}
         </Section>
