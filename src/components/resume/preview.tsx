@@ -14,7 +14,8 @@ import type {
 } from "@/types/form";
 import { LucideDownload, LucideEraser, LucideLoader2 } from "lucide-react";
 
-const PDF_VIEWER_PADDING = 10;
+const PDF_VIEWER_PADDING = 8;
+const A4_ASPECT_RATIO = 1 / 1.414; // width / height
 
 export const ResumePreview = () => {
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
@@ -23,7 +24,6 @@ export const ResumePreview = () => {
 
   // Watch all form fields
   const watchedFormValues = useWatch({ control });
-  console.log(watchedFormValues);
 
   // Debounce form changes to prevent spamming PDF generation
   const debouncedFormValues = useDebounce(watchedFormValues, 1000);
@@ -60,34 +60,23 @@ export const ResumePreview = () => {
     };
   }, [debouncedFormValues]);
 
+  const [pageWidth, setPageWidth] = useState(0);
+
+  useEffect(() => {
+    if (container.width) {
+      const adjustedWidth = Math.min(container.width - PDF_VIEWER_PADDING, 800);
+      setPageWidth(adjustedWidth);
+    }
+  }, [container.width]);
+  const pageHeight = pageWidth / A4_ASPECT_RATIO;
+
   return (
     <div className="space-y-5 flex flex-col h-full w-full" ref={resizeRef}>
-      <Document
-        file={pdfUrl}
-        loading={<PDFLoading />}
-        error={<div className="min-h-[792px] min-w-[500px] bg-white" />}
-        noData={<div className="min-h-[792px] min-w-[500px] bg-white" />}
-        onLoadError={(error) => {
-          console.error("[ERROR]: Error loading PDF:", error);
-        }}
-        className="shadow-xl"
-      >
-        <Page
-          pageNumber={1}
-          width={
-            (container.width || 0) > 600
-              ? 600 - PDF_VIEWER_PADDING
-              : (container.width || 0) - PDF_VIEWER_PADDING
-          }
-          renderTextLayer={false}
-          renderAnnotationLayer={false}
-        />
-      </Document>
-
       <div className="flex flex-row justify-around">
         <Button
           className="self-end"
           variant={"destructive"}
+          size="sm"
           onClick={() => {
             setValue("address", "");
             setValue("educationHistories", []);
@@ -97,12 +86,14 @@ export const ResumePreview = () => {
             setValue("links", []);
             setValue("phoneNumber", "");
             setValue("extraSections", []);
+            setValue("skills", []);
           }}
         >
           <LucideEraser />
           Reset
         </Button>
         <Button
+          size="sm"
           disabled={!pdfUrl}
           onClick={async (e) => {
             if (!pdfUrl) return;
@@ -126,6 +117,26 @@ export const ResumePreview = () => {
           <LucideDownload /> Export as PDF
         </Button>
       </div>
+      <Document
+        file={pdfUrl}
+        loading={<PDFLoading />}
+        error={<div className="min-h-[792px] min-w-[500px] bg-white" />}
+        noData={<div className="min-h-[792px] min-w-[500px] bg-white" />}
+        onLoadError={(error) => {
+          console.error("[ERROR]: Error loading PDF:", error);
+        }}
+        className="shadow-xl"
+      >
+        {pageWidth > 0 && (
+          <Page
+            pageNumber={1}
+            width={pageWidth}
+            height={pageHeight}
+            renderTextLayer={false}
+            renderAnnotationLayer={false}
+          />
+        )}
+      </Document>
     </div>
   );
 };
