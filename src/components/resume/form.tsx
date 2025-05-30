@@ -85,8 +85,8 @@ function LinksFields() {
       {links.fields.length > 0 ? (
         <div className="border bg-card p-5 rounded-lg space-y-5">
           {links.fields.map((_, idx) => (
-            <div key={idx} className="grid w-full grid-cols-2 gap-5">
-              <div className="space-y-2">
+            <div key={idx} className="grid w-full grid-cols-5 gap-5">
+              <div className="space-y-2 col-span-2">
                 <Label>
                   <span className="inline-flex items-center gap-2">
                     <TagIcon className="w-4 h-4" />
@@ -95,7 +95,7 @@ function LinksFields() {
                 </Label>
                 <Input {...register(`links.${idx}.label`)} />
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 col-span-2">
                 <Label>
                   <span className="inline-flex items-center gap-2">
                     <LinkIcon className="w-4 h-4" />
@@ -104,6 +104,14 @@ function LinksFields() {
                 </Label>
                 <Input {...register(`links.${idx}.url`)} />
               </div>
+
+              <Button
+                className="self-end"
+                variant="destructive"
+                onClick={() => links.remove(idx)}
+              >
+                Remove
+              </Button>
             </div>
           ))}
         </div>
@@ -131,7 +139,10 @@ function WorkHistoriesFields() {
   return (
     <div className="space-y-3 col-span-2">
       {workHistories.fields.map((workHistory, idx) => (
-        <div className="border bg-card p-5 rounded-lg space-y-5" key={idx}>
+        <div
+          className="border bg-card p-5 flex flex-col rounded-lg space-y-5"
+          key={idx}
+        >
           <div className="grid w-full grid-cols-2 gap-5">
             <div className="space-y-2">
               <Label>Job Title</Label>
@@ -194,6 +205,14 @@ function WorkHistoriesFields() {
             <Label>Description</Label>
             <Textarea {...register(`workHistories.${idx}.summary`)} />
           </div>
+
+          <Button
+            className="self-end"
+            variant="destructive"
+            onClick={() => workHistories.remove(idx)}
+          >
+            Remove
+          </Button>
         </div>
       ))}
       <Button
@@ -227,7 +246,10 @@ function EducationFields() {
   return (
     <div className="space-y-3 col-span-2">
       {educationHistories.fields.map((educationHistory, idx) => (
-        <div className="border bg-card p-5 rounded-lg space-y-5" key={idx}>
+        <div
+          className="border bg-card p-5 rounded-lg space-y-5 flex flex-col"
+          key={idx}
+        >
           <div className="grid w-full grid-cols-2 gap-5">
             <div className="space-y-2">
               <Label>School</Label>
@@ -291,6 +313,14 @@ function EducationFields() {
               <Textarea {...register(`educationHistories.${idx}.details`)} />
             </div>
           </div>
+
+          <Button
+            className="self-end"
+            variant="destructive"
+            onClick={() => educationHistories.remove(idx)}
+          >
+            Remove
+          </Button>
         </div>
       ))}
       <Button
@@ -501,35 +531,64 @@ const TemplateSelector = () => {
           <SelectItem value="modern">Modern</SelectItem>
         </SelectContent>
       </Select>
-      {/* <div className="mb-6 grid grid-cols-3 gap-5">
-        {[
-          {
-            label: "Professional",
-            url: "resume-default.pdf",
-            template: "default",
-          },
-          {
-            label: "Minimal",
-            url: "resume-minimal.pdf",
-            template: "minimal",
-          },
-          {
-            label: "Modern",
-            url: "resume-modern.pdf",
-            template: "modern",
-          },
-        ].map((template, idx) => (
-          <RenderSampleTemplate
-            label={template.label}
-            template={template.template as ResumeTemplate}
-            file={`${import.meta.env.BASE_URL}/samplepdfs/${template.url}`}
-            key={idx}
-          />
-        ))}
-      </div> */}
     </div>
   );
 };
+
+function SkillsFields() {
+  const { register, control } = useFormContext<Resume>();
+  const skills = useFieldArray({ control, name: "skills" });
+  return (
+    <div className="space-y-3 col-span-2">
+      {skills.fields.length > 0 ? (
+        <div className="border bg-card p-5 rounded-lg space-y-5">
+          {skills.fields.map((_, idx) => (
+            <div key={idx} className="grid w-full grid-cols-5 gap-5">
+              <div className="space-y-2 col-span-2">
+                <Label>
+                  <span className="inline-flex items-center gap-2">
+                    <TagIcon className="w-4 h-4" />
+                    Label
+                  </span>
+                </Label>
+                <Input {...register(`skills.${idx}.label`)} />
+              </div>
+              <div className="space-y-2 col-span-2">
+                <Label>
+                  <span className="inline-flex items-center gap-2">
+                    <LinkIcon className="w-4 h-4" />
+                    Value
+                  </span>
+                </Label>
+                <Input {...register(`skills.${idx}.value`)} />
+              </div>
+
+              <Button
+                className="self-end"
+                variant="destructive"
+                onClick={() => skills.remove(idx)}
+              >
+                Remove
+              </Button>
+            </div>
+          ))}
+        </div>
+      ) : null}
+      <Button
+        className="w-full"
+        type="button"
+        onClick={() =>
+          skills.append({
+            label: "",
+            value: "",
+          })
+        }
+      >
+        Add skill
+      </Button>
+    </div>
+  );
+}
 
 export const ResumeForm = () => {
   return (
@@ -562,6 +621,13 @@ export const ResumeForm = () => {
           <AccordionTrigger className="w-full">Education</AccordionTrigger>
           <AccordionContent>
             <EducationFields />
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="skills" className="col-span-2">
+          <AccordionTrigger className="w-full">Skills</AccordionTrigger>
+          <AccordionContent>
+            <SkillsFields />
           </AccordionContent>
         </AccordionItem>
 

@@ -59,6 +59,16 @@ const initialValues = {
       details: "Science stream with Computer Science.",
     },
   ],
+  skills: [
+    {
+      label: "Languages",
+      value: "Python, JavaScript, SQL, TypeScript, Go",
+    },
+    {
+      label: "Frontend",
+      value: "React.js, Next.js, HTML5, CSS3, TailwindCSS, Zustand, Websockets",
+    },
+  ],
   extraSections: [
     {
       sectionName: "Certifications",

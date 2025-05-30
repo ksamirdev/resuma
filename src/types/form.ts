@@ -7,6 +7,7 @@ export type Resume = {
   phoneNumber: string;
   address: string;
   links: ResumeLink[];
+  skills: ResumeSkill[];
   workHistories: WorkExperience[];
   educationHistories: EducationEntry[];
   extraSections: ExtraSection[];
@@ -15,6 +16,10 @@ export type Resume = {
 export type ResumeLink = {
   label: string;
   url: string;
+};
+export type ResumeSkill = {
+  label: string;
+  value: string;
 };
 
 export type WorkExperience = {

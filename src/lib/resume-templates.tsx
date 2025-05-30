@@ -141,6 +141,18 @@ export const ProfessionalResumeTemplate: FC<{ data: Partial<Resume> }> = ({
         </Section>
       )}
 
+      {/* Skills */}
+      {data?.skills && data?.skills.length > 0 && (
+        <Section title="SKILLS">
+          {data.skills.map((skill, idx) => (
+            <Text key={idx} style={pdfTw("text-sm pb-1")}>
+              <Text style={pdfTw("font-bold")}>{skill.label}</Text>:{" "}
+              {skill.value}
+            </Text>
+          ))}
+        </Section>
+      )}
+
       {/* Extra Sections */}
       {data?.extraSections?.map((section, idx) => (
         <Section key={idx} title={section.sectionName.toUpperCase()}>
@@ -213,6 +225,18 @@ export const ModernResumeTemplate: FC<{ data: Partial<Resume> }> = ({
               ))}
             </View>
           ) : null}
+
+          {/* Skills */}
+          {data?.skills && data?.skills.length > 0 && (
+            <Section title="SKILLS">
+              {data.skills.map((skill, idx) => (
+                <View key={idx} style={pdfTw("text-sm flex flex-col pb-2")}>
+                  <Text style={pdfTw("font-bold")}>{skill.label}</Text>:
+                  <Text>{skill.value}</Text>
+                </View>
+              ))}
+            </Section>
+          )}
         </View>
 
         {/* Right content */}
@@ -375,6 +399,17 @@ export const MinimalResumeTemplate: FC<{ data: Partial<Resume> }> = ({
                 </Text>
               )}
             </View>
+          ))}
+        </Section>
+      )}
+
+      {data?.skills && data?.skills?.length > 0 && (
+        <Section title="SKILLS">
+          {data.skills.map((skill, idx) => (
+            <Text key={idx} style={pdfTw("text-sm pb-1")}>
+              <Text style={pdfTw("font-bold")}>{skill.label}</Text>:{" "}
+              {skill.value}
+            </Text>
           ))}
         </Section>
       )}
