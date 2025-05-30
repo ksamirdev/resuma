@@ -2,7 +2,7 @@ import { Document, Page } from "react-pdf";
 import { useEffect, useState } from "react";
 import { createResumePdfBlob } from "@/lib/pdf-blob";
 import { Button } from "../ui/button";
-import { useDebounce, useMeasure } from "@uidotdev/usehooks";
+import { useDebounce, useLocalStorage, useMeasure } from "@uidotdev/usehooks";
 import { useFormContext, useWatch } from "react-hook-form";
 import type {
   EducationEntry,
@@ -13,6 +13,7 @@ import type {
   WorkExperience,
 } from "@/types/form";
 import { LucideDownload, LucideEraser, LucideLoader2 } from "lucide-react";
+import { dummyResume } from "@/lib/resume-templates";
 
 const PDF_VIEWER_PADDING = 8;
 const A4_ASPECT_RATIO = 1 / 1.414; // width / height
@@ -28,8 +29,12 @@ export const ResumePreview = () => {
   // Debounce form changes to prevent spamming PDF generation
   const debouncedFormValues = useDebounce(watchedFormValues, 1000);
 
+  const [, setLocalResume] = useLocalStorage("resume", dummyResume);
+
   useEffect(() => {
     const generatePdf = async () => {
+      setLocalResume(debouncedFormValues);
+
       const blob = await createResumePdfBlob({
         ...debouncedFormValues,
         links: debouncedFormValues.links as ResumeLink[] | undefined,

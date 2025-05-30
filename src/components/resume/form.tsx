@@ -515,7 +515,7 @@ const TemplateSelector = () => {
   const template = watch("template");
 
   return (
-    <div className="col-span-2 space-y-3">
+    <div className="col-span-2 space-y-3 flex flex-col">
       <Label htmlFor="template-select">Template</Label>
       <Select
         onValueChange={(v) => setValue("template", v as ResumeTemplate)}
@@ -531,6 +531,14 @@ const TemplateSelector = () => {
           <SelectItem value="modern">Modern</SelectItem>
         </SelectContent>
       </Select>
+
+      <a
+        target="_blank"
+        className="text-sm text-muted-foreground underline underline-offset-4 ml-auto"
+        href="https://github.com/ksamirdev/resuma/discussions/categories/request-template"
+      >
+        Request Template
+      </a>
     </div>
   );
 };
