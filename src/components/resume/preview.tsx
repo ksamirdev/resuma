@@ -9,6 +9,7 @@ import type {
   ExtraSection,
   Resume,
   ResumeLink,
+  ResumeSkill,
   WorkExperience,
 } from "@/types/form";
 import { LucideDownload, LucideEraser, LucideLoader2 } from "lucide-react";
@@ -41,6 +42,7 @@ export const ResumePreview = () => {
         extraSections: debouncedFormValues.extraSections as
           | ExtraSection[]
           | undefined,
+        skills: debouncedFormValues.skills as ResumeSkill[] | undefined,
       });
       const url = URL.createObjectURL(blob);
 
@@ -106,7 +108,7 @@ export const ResumePreview = () => {
             if (!pdfUrl) return;
             e.preventDefault();
             const shouldContinue = window.confirm(
-              "If you like this project, please consider starring it on GitHub!\n\nWould you like to continue downloading your resume?"
+              "If you like this project, please consider starring it on GitHub!\n\nWould you like to continue downloading your resume?",
             );
             if (shouldContinue) {
               // Trigger download
