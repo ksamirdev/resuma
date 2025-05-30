@@ -153,7 +153,7 @@ function WorkHistoriesFields() {
                       "w-full pl-3 text-left font-normal",
                       !workHistory.period.from &&
                         !workHistory.period.to &&
-                        "text-muted-foreground"
+                        "text-muted-foreground",
                     )}
                   >
                     {workHistory.period.from && workHistory.period.to ? (
@@ -169,7 +169,6 @@ function WorkHistoriesFields() {
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
                   <MonthRangePicker
-                    maxDate={new Date()}
                     selectedMonthRange={{
                       start:
                         workHistory.period.from || subMonths(new Date(), 5),
@@ -249,7 +248,7 @@ function EducationFields() {
                       "w-full pl-3 text-left font-normal",
                       !educationHistory.period.from &&
                         !educationHistory.period.to &&
-                        "text-muted-foreground"
+                        "text-muted-foreground",
                     )}
                   >
                     {educationHistory.period.from &&
@@ -344,7 +343,7 @@ function ExtraSectionsFields() {
                       <Label>Title</Label>
                       <Input
                         {...register(
-                          `extraSections.${idx}.items.${itemIdx}.title`
+                          `extraSections.${idx}.items.${itemIdx}.title`,
                         )}
                       />
                     </div>
@@ -352,7 +351,7 @@ function ExtraSectionsFields() {
                       <Label>Organization</Label>
                       <Input
                         {...register(
-                          `extraSections.${idx}.items.${itemIdx}.organization`
+                          `extraSections.${idx}.items.${itemIdx}.organization`,
                         )}
                       />
                     </div>
@@ -366,7 +365,7 @@ function ExtraSectionsFields() {
                               "w-full pl-3 text-left font-normal",
                               !item.period.from &&
                                 !item.period.to &&
-                                "text-muted-foreground"
+                                "text-muted-foreground",
                             )}
                           >
                             {item.period.from && item.period.to ? (
@@ -383,7 +382,6 @@ function ExtraSectionsFields() {
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-0" align="start">
                           <MonthRangePicker
-                            maxDate={new Date()}
                             selectedMonthRange={{
                               start:
                                 item.period.from || subMonths(new Date(), 5),
@@ -398,7 +396,7 @@ function ExtraSectionsFields() {
                                         ...it,
                                         period: { from: start, to: end },
                                       }
-                                    : it
+                                    : it,
                                 ),
                               };
                               extraSections.update(idx, updatedSection);
@@ -411,7 +409,7 @@ function ExtraSectionsFields() {
                       <Label>Location</Label>
                       <Input
                         {...register(
-                          `extraSections.${idx}.items.${itemIdx}.location`
+                          `extraSections.${idx}.items.${itemIdx}.location`,
                         )}
                       />
                     </div>
@@ -420,7 +418,7 @@ function ExtraSectionsFields() {
                       <Label>Description</Label>
                       <Textarea
                         {...register(
-                          `extraSections.${idx}.items.${itemIdx}.details`
+                          `extraSections.${idx}.items.${itemIdx}.details`,
                         )}
                       />
                     </div>
