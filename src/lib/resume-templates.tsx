@@ -75,7 +75,7 @@ export const ProfessionalResumeTemplate: FC<{ data: Partial<Resume> }> = ({
   <Document>
     <Page
       size="A4"
-      style={pdfTw("p-10 font-serif text-sm text-gray-800 bg-white")}
+      style={pdfTw("p-10 font-default text-sm text-gray-800 bg-white")}
     >
       {/* Header */}
       <View style={pdfTw("mb-6")}>
@@ -167,7 +167,7 @@ export const ModernResumeTemplate: FC<{ data: Partial<Resume> }> = ({
   <Document>
     <Page
       size="A4"
-      style={pdfTw("p-8 font-serif text-sm text-gray-800 bg-gray-50")}
+      style={pdfTw("p-8 font-default text-sm text-gray-800 bg-gray-50")}
     >
       {/* Two-column layout */}
       <View style={pdfTw("flex flex-row")}>
@@ -276,7 +276,7 @@ export const MinimalResumeTemplate: FC<{ data: Partial<Resume> }> = ({
   <Document>
     <Page
       size="A4"
-      style={pdfTw("p-12 font-serif text-sm text-gray-800 bg-white")}
+      style={pdfTw("p-12 font-default text-sm text-gray-800 bg-white")}
     >
       {/* Header */}
       <View style={pdfTw("text-center mb-10")}>
