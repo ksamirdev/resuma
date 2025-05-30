@@ -169,6 +169,7 @@ function WorkHistoriesFields() {
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
                   <MonthRangePicker
+                    maxDate={new Date()}
                     selectedMonthRange={{
                       start:
                         workHistory.period.from || subMonths(new Date(), 5),
@@ -265,7 +266,6 @@ function EducationFields() {
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
                   <MonthRangePicker
-                    maxDate={new Date()}
                     selectedMonthRange={{
                       start:
                         educationHistory.period.from ||
