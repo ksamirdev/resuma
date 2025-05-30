@@ -3,7 +3,7 @@ import { dummyResume } from "@/lib/resume-templates";
 import { createFileRoute } from "@tanstack/react-router";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { useEffect } from "react";
-import { FormProvider, useForm, useWatch } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 
 export const Route = createFileRoute("/")({
   component: Index,

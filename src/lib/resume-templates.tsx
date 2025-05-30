@@ -3,7 +3,7 @@ import { pdfTw } from "./utils";
 import type { FC } from "react";
 import type { DateRange, Resume } from "@/types/form";
 
-export const dummyResume = {
+export const dummyResume: Partial<Resume> = {
   template: "minimal",
   fullName: "Jordan Smith",
   email: "jordan.smith@email.com",

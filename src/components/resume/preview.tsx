@@ -29,13 +29,14 @@ export const ResumePreview = () => {
   // Debounce form changes to prevent spamming PDF generation
   const debouncedFormValues = useDebounce(watchedFormValues, 1000);
 
-  const [, setLocalResume] = useLocalStorage("resume", dummyResume);
+  const [, setLocalResume] = useLocalStorage<Partial<Resume>>(
+    "resume",
+    dummyResume,
+  );
 
   useEffect(() => {
     const generatePdf = async () => {
-      setLocalResume(debouncedFormValues);
-
-      const blob = await createResumePdfBlob({
+      const v = {
         ...debouncedFormValues,
         links: debouncedFormValues.links as ResumeLink[] | undefined,
         educationHistories: debouncedFormValues.educationHistories as
@@ -48,7 +49,11 @@ export const ResumePreview = () => {
           | ExtraSection[]
           | undefined,
         skills: debouncedFormValues.skills as ResumeSkill[] | undefined,
-      });
+      };
+
+      setLocalResume(v);
+
+      const blob = await createResumePdfBlob(v);
       const url = URL.createObjectURL(blob);
 
       if (pdfUrl) {
