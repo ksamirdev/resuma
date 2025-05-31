@@ -12,7 +12,12 @@ import type {
   ResumeSkill,
   WorkExperience,
 } from "@/types/form";
-import { LucideDownload, LucideEraser, LucideLoader2 } from "lucide-react";
+import {
+  LucideDownload,
+  LucideEraser,
+  LucideLoader2,
+  LucideUser,
+} from "lucide-react";
 import { dummyResume } from "@/lib/resume-templates";
 
 const PDF_VIEWER_PADDING = 8;
@@ -31,7 +36,7 @@ export const ResumePreview = () => {
 
   const [, setLocalResume] = useLocalStorage<Partial<Resume>>(
     "resume",
-    dummyResume,
+    dummyResume
   );
 
   useEffect(() => {
@@ -102,6 +107,20 @@ export const ResumePreview = () => {
           <LucideEraser />
           Reset
         </Button>
+
+        <Button
+          className="self-end"
+          size="sm"
+          onClick={() => {
+            for (const [k, v] of Object.entries(dummyResume)) {
+              setValue(k as keyof typeof dummyResume, v);
+            }
+          }}
+        >
+          <LucideUser />
+          Add Dummy
+        </Button>
+
         <Button
           size="sm"
           disabled={!pdfUrl}
@@ -109,7 +128,7 @@ export const ResumePreview = () => {
             if (!pdfUrl) return;
             e.preventDefault();
             const shouldContinue = window.confirm(
-              "If you like this project, please consider starring it on GitHub!\n\nWould you like to continue downloading your resume?",
+              "If you like this project, please consider starring it on GitHub!\n\nWould you like to continue downloading your resume?"
             );
             if (shouldContinue) {
               // Trigger download

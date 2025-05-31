@@ -160,7 +160,7 @@ const Section: FC<{ title: string; children: React.ReactNode }> = ({
   <View style={pdfTw("mb-3")}>
     <Text
       style={pdfTw(
-        "text-xs font-bold tracking-wider text-gray-500 mb-2 uppercase border-b border-gray-200 pb-1",
+        "text-xs font-bold tracking-wider text-gray-500 mb-2 uppercase border-b border-gray-200 pb-1"
       )}
     >
       {title}
@@ -177,7 +177,7 @@ const ExperienceItem: FC<{
   location?: string;
   details?: string;
 }> = ({ title, subtitle, period, location, details }) => (
-  <View style={pdfTw("mb-3")}>
+  <View style={pdfTw("mb-1")}>
     <View style={pdfTw("flex flex-row justify-between")}>
       <Text style={pdfTw("font-bold")}>{title}</Text>
       {period && (
@@ -211,7 +211,7 @@ export const ProfessionalResumeTemplate: FC<{ data: Partial<Resume> }> = ({
     >
       {/* Header */}
       <View style={pdfTw("mb-6")}>
-        <Text style={pdfTw("text-3xl font-bold text-primary mb-1")}>
+        <Text style={pdfTw("text-3xl font-bold text-primary leading-[1.5]")}>
           {data?.fullName || ""}
         </Text>
         <Text style={pdfTw("text-sm text-gray-600 mb-2")}>
@@ -309,17 +309,18 @@ export const ModernResumeTemplate: FC<{ data: Partial<Resume> }> = ({
   data,
 }) => (
   <Document>
-    <Page
-      size="A4"
-      style={pdfTw("p-8 font-default text-sm text-gray-800 bg-gray-50")}
-    >
+    <Page size="A4" style={pdfTw("p-8 font-default text-sm text-gray-800")}>
       {/* Two-column layout */}
       <View style={pdfTw("flex flex-row")}>
         {/* Left sidebar */}
         <View style={pdfTw("w-1/3 pr-4")}>
           {/* Profile */}
           <View style={pdfTw("mb-6")}>
-            <Text style={pdfTw("text-2xl font-bold text-primary mb-1")}>
+            <Text
+              style={pdfTw(
+                "text-2xl font-bold text-primary mb-1 leading-[1.5]"
+              )}
+            >
               {data?.fullName || ""}
             </Text>
             <Text style={pdfTw("text-xs text-gray-600")}>
@@ -435,17 +436,17 @@ export const MinimalResumeTemplate: FC<{ data: Partial<Resume> }> = ({
       style={pdfTw("p-12 font-default text-sm text-gray-800 bg-white")}
     >
       {/* Header */}
-      <View style={pdfTw("text-center mb-10")}>
+      <View style={pdfTw("text-center mb-5")}>
         <Text style={pdfTw("text-3xl  font-bold tracking-wider leading-[1.5]")}>
           {data?.fullName || ""}
         </Text>
-        <View style={pdfTw("h-px w-20 bg-gray-300 mx-auto my-2")} />
+        <View style={pdfTw("h-px w-20 mx-auto my-2")} />
         <Text style={pdfTw("text-xs text-gray-600 mb-3 tracking-wide")}>
           {data?.address || ""}
         </Text>
         <View
           style={pdfTw(
-            "flex flex-row justify-center flex-wrap gap-x-4 gap-y-1",
+            "flex flex-row justify-center flex-wrap gap-x-4 gap-y-1"
           )}
         >
           {data?.phoneNumber && (
@@ -552,7 +553,9 @@ export const MinimalResumeTemplate: FC<{ data: Partial<Resume> }> = ({
           {section.items.map((item, jdx) => (
             <View key={jdx} style={pdfTw("mb-3")}>
               <View
-                style={pdfTw("flex flex-row justify-between items-baseline")}
+                style={pdfTw(
+                  "flex flex-row justify-between items-baseline pb-[2px]"
+                )}
               >
                 <Text style={pdfTw("text-sm font-semibold")}>{item.title}</Text>
                 <Text style={pdfTw("text-xs text-gray-500")}>
