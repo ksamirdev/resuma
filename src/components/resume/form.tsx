@@ -30,6 +30,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { MonthPicker } from "../ui/monthpicker";
 
 // Normal fields
 function BasicDetailsFields() {
@@ -153,25 +154,20 @@ function WorkHistoriesFields() {
               <Input {...register(`workHistories.${idx}.company`)} />
             </div>
           </div>
-          <div className="grid w-full grid-cols-2 gap-5">
+          <div className="grid w-full grid-cols-4 gap-5">
             <div className="space-y-2">
-              <Label>Period</Label>
+              <Label>Start Date</Label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
                     variant={"outline"}
                     className={cn(
                       "w-full pl-3 text-left font-normal",
-                      !workHistory.period.from &&
-                        !workHistory.period.to &&
-                        "text-muted-foreground",
+                      !workHistory.period.from && "text-muted-foreground",
                     )}
                   >
-                    {workHistory.period.from && workHistory.period.to ? (
-                      <span>
-                        {format(workHistory.period.from, "MMM yyyy")} -{" "}
-                        {format(workHistory.period.to, "MMM yyyy")}
-                      </span>
+                    {workHistory.period.from ? (
+                      <span>{format(workHistory.period.from, "MMM yyyy")}</span>
                     ) : (
                       <span>Pick a month</span>
                     )}
@@ -179,24 +175,54 @@ function WorkHistoriesFields() {
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
-                  <MonthRangePicker
-                    maxDate={new Date()}
-                    selectedMonthRange={{
-                      start:
-                        workHistory.period.from || subMonths(new Date(), 5),
-                      end: workHistory.period.to || new Date(),
-                    }}
-                    onMonthRangeSelect={({ start, end }) => {
+                  <MonthPicker
+                    onMonthSelect={(month) => {
                       workHistories.update(idx, {
                         ...workHistory,
-                        period: { from: start, to: end },
+                        period: { ...workHistory.period, from: month },
                       });
                     }}
+                    selectedMonth={workHistory.period.from}
                   />
                 </PopoverContent>
               </Popover>
             </div>
-            <div className="space-y-2 ">
+
+            <div className="space-y-2">
+              <Label>End Date</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "w-full pl-3 text-left font-normal",
+
+                      !workHistory.period.to && "text-muted-foreground",
+                    )}
+                  >
+                    {workHistory.period.to ? (
+                      <span>{format(workHistory.period.to, "MMM yyyy")}</span>
+                    ) : (
+                      <span>Pick a month</span>
+                    )}
+                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <MonthPicker
+                    onMonthSelect={(month) => {
+                      workHistories.update(idx, {
+                        ...workHistory,
+                        period: { ...workHistory.period, to: month },
+                      });
+                    }}
+                    selectedMonth={workHistory.period.to}
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+
+            <div className="space-y-2 col-span-2">
               <Label>Location</Label>
               <Input {...register(`workHistories.${idx}.location`)} />
             </div>
@@ -260,24 +286,56 @@ function EducationFields() {
               <Input {...register(`educationHistories.${idx}.qualification`)} />
             </div>
           </div>
-          <div className="grid w-full grid-cols-2 gap-5">
+          <div className="grid w-full grid-cols-4 gap-5">
             <div className="space-y-2">
-              <Label>Period</Label>
+              <Label>Start Date</Label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
                     variant={"outline"}
                     className={cn(
                       "w-full pl-3 text-left font-normal",
-                      !educationHistory.period.from &&
-                        !educationHistory.period.to &&
-                        "text-muted-foreground",
+                      !educationHistory.period.from && "text-muted-foreground",
                     )}
                   >
-                    {educationHistory.period.from &&
-                    educationHistory.period.to ? (
+                    {educationHistory.period.from ? (
                       <span>
-                        {format(educationHistory.period.from, "MMM yyyy")} -{" "}
+                        {format(educationHistory.period.from, "MMM yyyy")}
+                      </span>
+                    ) : (
+                      <span>Pick a month</span>
+                    )}
+                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <MonthPicker
+                    onMonthSelect={(month) => {
+                      educationHistories.update(idx, {
+                        ...educationHistory,
+                        period: { ...educationHistory.period, from: month },
+                      });
+                    }}
+                    selectedMonth={educationHistory.period.from}
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+
+            <div className="space-y-2">
+              <Label>End Date</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "w-full pl-3 text-left font-normal",
+
+                      !educationHistory.period.to && "text-muted-foreground",
+                    )}
+                  >
+                    {educationHistory.period.to ? (
+                      <span>
                         {format(educationHistory.period.to, "MMM yyyy")}
                       </span>
                     ) : (
@@ -287,28 +345,24 @@ function EducationFields() {
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
-                  <MonthRangePicker
-                    selectedMonthRange={{
-                      start:
-                        educationHistory.period.from ||
-                        subMonths(new Date(), 5),
-                      end: educationHistory.period.to || new Date(),
-                    }}
-                    onMonthRangeSelect={({ start, end }) => {
+                  <MonthPicker
+                    onMonthSelect={(month) => {
                       educationHistories.update(idx, {
                         ...educationHistory,
-                        period: { from: start, to: end },
+                        period: { ...educationHistory.period, to: month },
                       });
                     }}
+                    selectedMonth={educationHistory.period.to}
                   />
                 </PopoverContent>
               </Popover>
             </div>
-            <div className="space-y-2 ">
+
+            <div className="space-y-2 col-span-2">
               <Label>Location</Label>
               <Input {...register(`educationHistories.${idx}.location`)} />
             </div>
-            <div className="space-y-2 col-span-2">
+            <div className="space-y-2 col-span-4">
               <Label>Description</Label>
               <Textarea {...register(`educationHistories.${idx}.details`)} />
             </div>
@@ -385,65 +439,104 @@ function ExtraSectionsFields() {
                         )}
                       />
                     </div>
-                    <div className="space-y-2">
-                      <Label>Period</Label>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <Button
-                            variant={"outline"}
-                            className={cn(
-                              "w-full pl-3 text-left font-normal",
-                              !item.period.from &&
-                                !item.period.to &&
-                                "text-muted-foreground",
-                            )}
-                          >
-                            {item.period.from && item.period.to ? (
-                              <span>
-                                {format(item.period.from, "MMM yyyy")} -{" "}
-                                {format(item.period.to, "MMM yyyy")}
-                              </span>
-                            ) : (
-                              <span>Pick a month</span>
-                            )}
 
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <MonthRangePicker
-                            selectedMonthRange={{
-                              start:
-                                item.period.from || subMonths(new Date(), 5),
-                              end: item.period.to || new Date(),
-                            }}
-                            onMonthRangeSelect={({ start, end }) => {
-                              const updatedSection = {
-                                ...section,
-                                items: section.items.map((it, i) =>
-                                  i === itemIdx
-                                    ? {
-                                        ...it,
-                                        period: { from: start, to: end },
-                                      }
-                                    : it,
-                                ),
-                              };
-                              extraSections.update(idx, updatedSection);
-                            }}
-                          />
-                        </PopoverContent>
-                      </Popover>
-                    </div>
-                    <div className="space-y-2 ">
-                      <Label>Location</Label>
-                      <Input
-                        {...register(
-                          `extraSections.${idx}.items.${itemIdx}.location`,
-                        )}
-                      />
-                    </div>
+                    <div className="grid grid-cols-4 col-span-2 gap-5">
+                      <div className="space-y-2">
+                        <Label>Start Date</Label>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "w-full pl-3 text-left font-normal",
+                                !item.period.from && "text-muted-foreground",
+                              )}
+                            >
+                              {item.period.from ? (
+                                <span>
+                                  {format(item.period.from, "MMM yyyy")}
+                                </span>
+                              ) : (
+                                <span>Pick a month</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <MonthPicker
+                              onMonthSelect={(month) => {
+                                const updatedSection = {
+                                  ...section,
+                                  items: section.items.map((it, i) =>
+                                    i === itemIdx
+                                      ? {
+                                          ...it,
+                                          period: { ...it.period, from: month },
+                                        }
+                                      : it,
+                                  ),
+                                };
+                                extraSections.update(idx, updatedSection);
+                              }}
+                              selectedMonth={item.period.from}
+                            />
+                          </PopoverContent>
+                        </Popover>
+                      </div>
 
+                      <div className="space-y-2">
+                        <Label>End Date</Label>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "w-full pl-3 text-left font-normal",
+
+                                !item.period.to && "text-muted-foreground",
+                              )}
+                            >
+                              {item.period.to ? (
+                                <span>
+                                  {format(item.period.to, "MMM yyyy")}
+                                </span>
+                              ) : (
+                                <span>Pick a month</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <MonthPicker
+                              onMonthSelect={(month) => {
+                                const updatedSection = {
+                                  ...section,
+                                  items: section.items.map((it, i) =>
+                                    i === itemIdx
+                                      ? {
+                                          ...it,
+                                          period: { ...it.period, to: month },
+                                        }
+                                      : it,
+                                  ),
+                                };
+                                extraSections.update(idx, updatedSection);
+                              }}
+                              selectedMonth={item.period.to}
+                            />
+                          </PopoverContent>
+                        </Popover>
+                      </div>
+
+                      <div className="space-y-2 col-span-2">
+                        <Label>Location</Label>
+                        <Input
+                          {...register(
+                            `extraSections.${idx}.items.${itemIdx}.location`,
+                          )}
+                        />
+                      </div>
+                    </div>
                     <div className="space-y-2 col-span-2">
                       <Label>Description</Label>
                       <Textarea
