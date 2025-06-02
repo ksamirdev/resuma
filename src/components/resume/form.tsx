@@ -15,8 +15,7 @@ import {
   UserIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { MonthRangePicker } from "../ui/monthrangepicker";
-import { format, subMonths } from "date-fns";
+import { format } from "date-fns";
 import {
   Accordion,
   AccordionContent,
